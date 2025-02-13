@@ -5,7 +5,7 @@ import { loginUser } from '../../features/loginSlice';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const loginError = useSelector((state) => state.login.error);
+  const loginError = useSelector((state) => state.login.loginError);
   const form = useFormik({
     initialValues: {
       username: '',
