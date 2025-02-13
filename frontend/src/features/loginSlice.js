@@ -55,16 +55,25 @@ const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.rejected, (state, { error }) => {
-        state.error = error.message;
+        state.loginError = error.message;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         localStorage.setItem("userData", JSON.stringify(payload));
         state.entities.token = payload.token;
         state.entities.username = payload.username;
-        state.error = null;
+        state.loginError = null;
+      })
+      .addCase(signUpUser.rejected, (state, { error }) => {
+        state.signupError = error.message;
+      })
+      .addCase(signUpUser.fulfilled, (state, { payload }) => {
+        localStorage.setItem("userData", JSON.stringify(payload));
+        state.entities.token = payload.token;
+        state.entities.username = payload.username;
+        state.signupError = null;
       });
   },
 });
 
 export default loginSlice.reducer;
-export const { setUser } = loginSlice.actions;
+export const { setUser, logoutUser } = loginSlice.actions;
