@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import LoginForm from '../../components/forms/LoginForm';
 
-const LoginScreen = () => {
+const LoginPage = () => {
   const navigation = useNavigate();
   const currentLocation = useLocation();
   const authToken = useSelector((state) => state.login.entities?.token);
@@ -33,9 +33,7 @@ const LoginScreen = () => {
             </div>
             <div className="card-footer bg-transparent text-center py-3">
               <span className="me-2">Нет аккаунта?</span>
-              <a href="/signup" className="text-decoration-none">
-                Регистрация
-              </a>
+              <Link to={'/signup'}>Регистрация</Link>
             </div>
           </div>
         </div>
@@ -44,4 +42,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default LoginPage;
