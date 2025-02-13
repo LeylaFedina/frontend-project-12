@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import LoginForm from '../../components/forms/LoginForm';
 
 const LoginPage = () => {
-  const navigation = useNavigate();
-  const currentLocation = useLocation();
-  const authToken = useSelector((state) => state.login.entities?.token);
-  const redirectPath = currentLocation.state?.from?.pathname || '/';
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.login.entities?.token);
 
   useEffect(() => {
-    if (authToken) {
-      navigation(redirectPath, { replace: true });
+    if (localStorage.getItem('userData') && token) {
+      navigate('fromPage');
+      navigate('/');
     }
-  }, [authToken, navigation, redirectPath]);
+  }, [token, navigate]);
 
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
