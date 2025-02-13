@@ -15,14 +15,15 @@ const HomePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const token = user?.token;
-    if (!token) {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const StorageToken = userData?.token;
+    if (!StorageToken) {
       navigate('/login');
+    } else {
+      dispatch(setUser(userData));
+      dispatch(getChannels());
+      dispatch(getMessages());
     }
-    dispatch(setUser(user));
-    dispatch(getChannels());
-    dispatch(getMessages());
   }, [navigate, dispatch]);
 
   const openModal = () => {
