@@ -1,16 +1,29 @@
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
-const AppHeader = () => {
-  const isAuthenticated = useSelector((state) => !!state.login.entities.token);
+import { logoutUser } from '../../features/loginSlice';
+import { resetChatState } from '../../features/chatSlice';
+
+const Header = () => {
+  const isAuthenticated = !!localStorage.getItem('userData');
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    dispatch(resetChatState());
+    navigate('/login', { replace: true });
+  };
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           Hexlet Chat
-        </a>
+        </Link>
         {isAuthenticated && (
-          <button type="button" className="btn btn-primary">
+          <button type="button" onClick={handleLogout} className="btn btn-primary">
             Выйти
           </button>
         )}
@@ -19,4 +32,4 @@ const AppHeader = () => {
   );
 };
 
-export default AppHeader;
+export default Header;
