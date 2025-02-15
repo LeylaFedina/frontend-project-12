@@ -22,7 +22,7 @@ const LoginPage = () => {
           <div className="card-body p-4">
             <div className="d-flex flex-column align-items-center">
               <img
-                src="./src/assets/login.jpg"
+                src="../../assets/login.jpg"
                 alt="Login"
                 className="rounded-circle mb-4"
                 width="120"
