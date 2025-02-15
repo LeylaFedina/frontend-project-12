@@ -8,32 +8,50 @@ const initialState = {
     username: "",
   },
   loginError: null,
-  signUpError: null,
+  signupError: null,
 };
-
-export const signUpUser = createAsyncThunk(
-  "@@login/signup-user",
-  async (newUserData) => {
-    const res = await axios.post("/api/v1/signup", {
-      username: newUserData.username,
-      password: newUserData.password,
-    });
-    const data = res.data;
-
-    return data;
-  }
-);
 
 export const loginUser = createAsyncThunk(
   "@@login/login-user",
-  async (userData) => {
-    const res = await axios.post("/api/v1/login", {
-      username: userData.username,
-      password: userData.password,
-    });
-    const data = res.data;
+  async (userData, thunkAPI) => {
+    try {
+      const res = await axios.post("/api/v1/login", {
+        username: userData.username,
+        password: userData.password,
+      });
+      const data = res.data;
 
-    return data;
+      return data;
+    } catch (error) {
+      if (error.status === 500) {
+        return thunkAPI.rejectWithValue("validation.connectionError");
+      }
+      if (error.status === 401) {
+        return thunkAPI.rejectWithValue("validation.loginError");
+      }
+    }
+  }
+);
+
+export const signupUser = createAsyncThunk(
+  "@@login/signup-user",
+  async (newUserData, thunkAPI) => {
+    try {
+      const res = await axios.post("/api/v1/signup", {
+        username: newUserData.username,
+        password: newUserData.password,
+      });
+      const data = res.data;
+
+      return data;
+    } catch (error) {
+      if (error.status === 500) {
+        return thunkAPI.rejectWithValue("validation.connectionError");
+      }
+      if (error.status === 409) {
+        return thunkAPI.rejectWithValue("validation.existingUser");
+      }
+    }
   }
 );
 
@@ -51,13 +69,10 @@ const loginSlice = createSlice({
       localStorage.removeItem("userData");
     },
   },
-
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.rejected, (state, { error }) => {
-        if (error.message.includes("401")) {
-          state.loginError = "Неверные имя пользователя или пароль";
-        }
+      .addCase(loginUser.rejected, (state, { payload }) => {
+        state.loginError = payload;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         localStorage.setItem("userData", JSON.stringify(payload));
@@ -65,10 +80,10 @@ const loginSlice = createSlice({
         state.entities.username = payload.username;
         state.loginError = null;
       })
-      .addCase(signUpUser.rejected, (state, { error }) => {
-        state.signupError = error.message;
+      .addCase(signupUser.rejected, (state, { payload }) => {
+        state.signupError = payload;
       })
-      .addCase(signUpUser.fulfilled, (state, { payload }) => {
+      .addCase(signupUser.fulfilled, (state, { payload }) => {
         localStorage.setItem("userData", JSON.stringify(payload));
         state.entities.token = payload.token;
         state.entities.username = payload.username;
