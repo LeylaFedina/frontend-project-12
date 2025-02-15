@@ -9,6 +9,8 @@ import { receiveMessage } from '../../features/chatSlice';
 const Chat = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
 
   const chat = useSelector((state) => state.chat);
   const activeChannelIdx = chat.ui.activeChannelIndex;
@@ -19,6 +21,7 @@ const Chat = () => {
   );
   const messages = messageIds.map((id) => chat.messages.entities[id]);
   const messageCount = messageIds.length;
+  const censoredChannelName = filter.clean(currentChannel?.name);
 
   useEffect(() => {
     const socket = io();
@@ -38,7 +41,7 @@ const Chat = () => {
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
-        <b>{`# ${currentChannel?.name || 'Канал не выбран'}`}</b>
+        <b>{`# ${censoredChannelName || 'Канал не выбран'}`}</b>
         </p>
         <span className="text-muted">{`${messageCount} ${t('chat.messagesCount')}`}</span>
       </div>

@@ -2,6 +2,7 @@ import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal } from '../../features/chatSlice';
+import filter from 'leo-profanity';
 import RemoveChannel from '../modals/RemoveChannel';
 import RenameChannel from '../modals/RenameChannel';
 
@@ -19,11 +20,15 @@ const ChannelList = () => {
     dispatch(openRenameChannelModal(channelId));
   };
 
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
+
   return (
     <>
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {channelData.ids.map((channelId, idx) => {
+        {channelData.ids.map((channelId, idx) => {     
           const { name, id, removable } = channelData.entities[channelId];
+          const censoredChannelName = filter.clean(name);
           const isChannelActive = currentChannelIndex === idx;
           const buttonStyle = isChannelActive ? 'btn-secondary' : 'btn-light';
 
@@ -36,7 +41,7 @@ const ChannelList = () => {
                     onClick={() => dispatch(setActiveChannel(idx))}
                   >
                     <span className="me-1">#</span>
-                    {name}
+                    {censoredChannelName}
                   </Button>
 
                   <Dropdown.Toggle
