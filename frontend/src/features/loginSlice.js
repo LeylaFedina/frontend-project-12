@@ -55,7 +55,9 @@ const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.rejected, (state, { error }) => {
-        state.loginError = error.message;
+        if (error.message.includes("401")) {
+          state.loginError = "Неверные имя пользователя или пароль";
+        }
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         localStorage.setItem("userData", JSON.stringify(payload));
