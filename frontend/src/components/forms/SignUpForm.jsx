@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { setLocale } from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,21 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const error = useSelector((state) => state.login?.signUpError);
+  const error = useSelector((state) => state.login?.signupError);
+
+  const customMessages = {
+    mixed: {
+      required: t('validation.emptyField'),
+    },
+    string: {
+      min: ({ min }) => (min === 3 ? t('validation.length') : t('validation.min')),
+      max: t('validation.length'),
+      oneOf: t('validation.passwordConfirmation'),
+      notOneOf: t('validation.uniqName'),
+    },
+  };
+
+  setLocale(customMessages);
 
   const formik = useFormik({
     initialValues: {
@@ -29,7 +44,7 @@ const SignUpForm = () => {
     passwordConfirmation: yup
       .string()
       .required()
-      .oneOf([yup.ref('password')]),
+      .oneOf([yup.ref('password')], t('validation.passwordConfirmation')),
   });
 
   return (
@@ -51,7 +66,7 @@ const SignUpForm = () => {
         {formik.touched.username && formik.errors.username ? (
           <div className="invalid-feedback">{formik.errors.username}</div>
         ) : null}
-        {error && <div className="invalid-feedback">{error}</div>}
+        {error && <div className="invalid-feedback">{t(error)}</div>}
       </div>
 
       <div className="form-floating mb-4">
