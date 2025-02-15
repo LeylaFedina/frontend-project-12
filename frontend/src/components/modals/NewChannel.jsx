@@ -5,10 +5,11 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../features/validationSlice';
 import { closeRenameChannelModal, postChannel } from '../../features/chatSlice';
-
+import { useTranslation } from 'react-i18next';
 
 const NewChannel = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const validation = useSelector((state) => state.validation.addingChannel);
   const channelIds = useSelector((state) => state.chat.channels.ids);
   const channels = useSelector((state) => state.chat.channels.entities);
@@ -53,12 +54,12 @@ const NewChannel = () => {
   return (
     <Modal show={isModalOpen} onHide={closeModal} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('chat.addModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={form.handleSubmit}>
           <Form.Group controlId="channelName">
-            <Form.Label>Имя канала</Form.Label>
+            <Form.Label>{t('chat.addModal.desription')}</Form.Label>
             <Form.Control
               type="text"
               name="name"
@@ -73,10 +74,10 @@ const NewChannel = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={closeModal}>
-          Отмена
+        {t('chat.addModal.cancelBtn')}
         </Button>
         <Button variant="primary" onClick={form.handleSubmit}>
-          Создать
+        {t('chat.addModal.sendBtn')}
         </Button>
       </Modal.Footer>
     </Modal>
