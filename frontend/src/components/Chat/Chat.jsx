@@ -1,11 +1,13 @@
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { openRenameChannelModal } from '../../features/chatSlice';
 
 const Chat = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const chat = useSelector((state) => state.chat);
   const activeChannelIdx = chat.ui.activeChannelIndex;
@@ -34,7 +36,7 @@ const Chat = () => {
         <p className="m-0">
           <b>{`# ${currentChannel?.name}`}</b>
         </p>
-        <span className="text-muted">{`${messageCount} сообщений`}</span>
+        <span className="text-muted">{`${messageCount} ${t('chat.messagesCount')}`}</span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5">
         {messages &&
