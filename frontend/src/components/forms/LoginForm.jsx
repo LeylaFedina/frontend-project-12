@@ -48,7 +48,7 @@ const Login = () => {
         <label className="form-label" htmlFor="password">
         {t('loginPage.form.password')}
         </label>
-        {loginError && <div className="invalid-feedback">{loginError}</div>}
+        {loginError && <div className="invalid-feedback">{t(loginError)}</div>}
       </div>
       <button type="submit" className="w-100 mb-5 btn btn-outline-primary">
       {t('loginPage.form.loginBtn')}
