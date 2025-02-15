@@ -57,6 +57,17 @@ const HomePage = () => {
   const channelRenamed = useSelector((state) => state.chat.ui.modals.renameChannel.isChannelRenamed);
 
   useEffect(() => {
+    if (serverErrors) {
+      toast.error(t(serverErrors), {
+        theme: 'colored',
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        position: 'bottom-right',
+      });
+      dispatch(clearError());
+    }
+  }, [serverErrors, dispatch]);
+  useEffect(() => {
     if (channelAdded) {
       toast.success(t('chat.addModal.notification'), {
         theme: 'colored',
@@ -94,6 +105,7 @@ const HomePage = () => {
             <h5 className="m-0">{t('chat.channels.title')}</h5>
             <button type="button" className="btn btn-link p-0" onClick={openModal}>
               <AddIcon size={20} />
+              <span className="visually-hidden">{t('chat.channels.addBtn')}</span>
             </button>
           </div>
           <ChannelList />
