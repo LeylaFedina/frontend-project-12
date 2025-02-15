@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import { CgArrowRightR as SendIcon } from 'react-icons/cg';
 import { openRenameChannelModal } from '../../features/chatSlice';
@@ -8,6 +9,7 @@ import { openRenameChannelModal } from '../../features/chatSlice';
 const SendMessageForm = () => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
+  const { t } = useTranslation();
 
   const form = useFormik({
     initialValues: {
@@ -41,7 +43,7 @@ const SendMessageForm = () => {
             id="message"
             name="message"
             aria-label="Новое сообщение"
-            placeholder="Введите сообщение..."
+            placeholder={t('chat.form.placeholder')}
             className="border-0 p-0 ps-2 form-control"
             onChange={form.handleChange}
             value={form.values.message}
@@ -49,7 +51,7 @@ const SendMessageForm = () => {
           />
           <button type="submit" disabled="" className="btn btn-group-vertical">
             <SendIcon size={'1.5rem'} />
-            <span className="visually-hidden">Отправить</span>
+            <span className="visually-hidden">{t('chat.form.sendBtn')}</span>
           </button>
         </div>
       </form>
