@@ -3,9 +3,19 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { setUser } from '../../features/loginSlice';
-import { getChannels, getMessages, openAddChannelModal, clearError } from '../../features/chatSlice';
+import {
+  getChannels,
+  getMessages,
+  openAddChannelModal,
+  clearError,
+  setChannelAdded,
+  setChannelRenamed,
+  setChannelDeleted,
+} from '../../features/chatSlice';
 import ChannelList from '../../components/ChannelList/ChannelList';
 import Chat from '../../components/Chat/Chat';
 import SendMessageForm from '../../components/forms/SendMessageForm';
@@ -34,11 +44,47 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    if (serverErrors) {
-      alert(serverErrors);
-      dispatch(clearError());
-    }
+    toast.error(serverErrors, {
+      theme: 'colored',
+      pauseOnFocusLoss: false,
+      hideProgressBar: true,
+      position: 'bottom-right',
+    });
   }, [serverErrors, dispatch]);
+
+  const channelAdded = useSelector((state) => state.chat.ui.modals.addChannel.isChannelAdded);
+  const channelDeleted = useSelector((state) => state.chat.ui.modals.deleteChannel.isChannelDeleted);
+  const channelRenamed = useSelector((state) => state.chat.ui.modals.renameChannel.isChannelRenamed);
+
+  useEffect(() => {
+    if (channelAdded) {
+      toast.success(t('chat.addModal.notification'), {
+        theme: 'colored',
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        position: 'bottom-right',
+      });
+      dispatch(setChannelAdded(false));
+    }
+    if (channelDeleted) {
+      toast.success(t('chat.deleteModal.notification'), {
+        theme: 'colored',
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        position: 'bottom-right',
+      });
+      dispatch(setChannelDeleted(false));
+    }
+    if (channelRenamed) {
+      toast.success(t('chat.renameModal.notification'), {
+        theme: 'colored',
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        position: 'bottom-right',
+      });
+      dispatch(setChannelRenamed(false));
+    }
+  }, [channelAdded, channelDeleted, channelRenamed, dispatch]);
 
   return (
     <div className="container-fluid h-100 p-3">
@@ -58,6 +104,7 @@ const HomePage = () => {
         </div>
       </div>
       <NewChannel />
+      <ToastContainer />
     </div>
   );
 };
