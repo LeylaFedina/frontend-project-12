@@ -3,11 +3,13 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../features/validationSlice';
 import { closeRenameChannelModal, renameChannel } from '../../features/chatSlice';
 
 const RenameChannel = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const channelId = useSelector((state) => state.chat.ui.modals.renameChannel.channelId);
   const validation = useSelector((state) => state.validation.addingChannel);
@@ -60,7 +62,7 @@ const RenameChannel = () => {
   return (
     <Modal show={isModalOpen} onHide={closeModal} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('chat.renameModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={form.handleSubmit}>
@@ -79,10 +81,10 @@ const RenameChannel = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={closeModal}>
-          Отмена
+        {t('chat.renameModal.cancelBtn')}
         </Button>
         <Button variant="primary" onClick={form.handleSubmit}>
-          Сохранить
+        {t('chat.renameModal.sendBtn')}
         </Button>
       </Modal.Footer>
     </Modal>
