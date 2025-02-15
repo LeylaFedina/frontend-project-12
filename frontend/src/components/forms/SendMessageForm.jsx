@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
 import { CgArrowRightR as SendIcon } from 'react-icons/cg';
+
 import { openRenameChannelModal } from '../../features/chatSlice';
 
 const SendMessageForm = () => {

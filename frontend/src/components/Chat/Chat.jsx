@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
-import { io } from 'socket.io-client';
 
 import { receiveMessage } from '../../features/chatSlice';
 
@@ -42,7 +41,7 @@ const Chat = () => {
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
-        <b>{`# ${censoredChannelName || 'Канал не выбран'}`}</b>
+        <b>{`# ${censoredChannelName || t('chat.channels.noChannels')}`}</b>
         </p>
         <span className="text-muted">{`${messageCount} ${t('chat.messagesCount')}`}</span>
       </div>

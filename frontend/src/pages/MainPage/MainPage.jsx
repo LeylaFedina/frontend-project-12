@@ -1,10 +1,11 @@
-import { FaPlus as AddIcon } from 'react-icons/fa';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { FaPlus as AddIcon } from 'react-icons/fa';
 
 import { setUser } from '../../features/loginSlice';
 import {

@@ -2,9 +2,11 @@ import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal, updateChannels, addChannel} from '../../features/chatSlice';
+
 import filter from 'leo-profanity';
 import { io } from 'socket.io-client';
+
+import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal, updateChannels, addChannel} from '../../features/chatSlice';
 import RemoveChannel from '../modals/RemoveChannel';
 import RenameChannel from '../modals/RenameChannel';
 

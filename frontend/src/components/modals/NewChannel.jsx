@@ -4,9 +4,11 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+
 import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../features/validationSlice';
 import { closeRenameChannelModal, postChannel } from '../../features/chatSlice';
-import { useTranslation } from 'react-i18next';
+
 
 const NewChannel = () => {
   const dispatch = useDispatch();
