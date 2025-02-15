@@ -2,8 +2,9 @@ import { io } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
-import { openRenameChannelModal } from '../../features/chatSlice';
+import { receiveMessage } from '../../features/chatSlice';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -21,8 +22,11 @@ const Chat = () => {
 
   useEffect(() => {
     const socket = io();
-    socket.on('newMessage', (data) => {
-      dispatch(openRenameChannelModal(data));
+    socket.on('newMessage', (payload) => {
+      filter.add(filter.getDictionary('en'));
+      filter.add(filter.getDictionary('ru'));
+      const sensoredMessage = { ...payload, body: filter.clean(payload.body) };
+      dispatch(receiveMessage(sensoredMessage));
     });
 
     return () => {
