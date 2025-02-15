@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { CgArrowRightR as SendIcon } from 'react-icons/cg';
 
-import { openRenameChannelModal } from '../../features/chatSlice';
+import { openRenameChannelModal } from '../../../features/chatSlice';
 
 const SendMessageForm = () => {
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const SendMessageForm = () => {
             ref={inputRef}
           />
           <button type="submit" disabled="" className="btn btn-group-vertical">
-            <SendIcon size={'1.5rem'} />
+            <SendIcon size="1.5rem" />
             <span className="visually-hidden">{t('chat.form.sendBtn')}</span>
           </button>
         </div>

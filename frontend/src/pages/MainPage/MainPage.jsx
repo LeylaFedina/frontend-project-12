@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -19,8 +20,8 @@ import {
 } from '../../features/chatSlice';
 import ChannelList from '../../components/ChannelList/ChannelList';
 import Chat from '../../components/Chat/Chat';
-import SendMessageForm from '../../components/forms/SendMessageForm';
-import NewChannel from '../../components/modals/NewChannel';
+import SendMessageForm from '../../components/forms/SendMessageForm/SendMessageForm';
+import NewChannel from '../../components/modals/NewChannel/NewChannel';
 
 const HomePage = () => {
   const navigate = useNavigate();

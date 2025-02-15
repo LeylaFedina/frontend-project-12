@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,18 +7,25 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { io } from 'socket.io-client';
 
-import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal, updateChannels, addChannel} from '../../features/chatSlice';
-import RemoveChannel from '../modals/RemoveChannel';
-import RenameChannel from '../modals/RenameChannel';
+import {
+  openDeleteChannelModal,
+  setActiveChannel,
+  openRenameChannelModal,
+  updateChannels,
+  addChannel,
+} from '../../features/chatSlice';
+import RemoveChannel from '../modals/RemoveChannel/RemoveChannel';
+import RenameChannel from '../modals/RenameChannel/RenameChannel';
 
 const ChannelList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const channelData = useSelector((state) => state.chat.channels);
   const currentChannelIndex = useSelector((state) => state.chat.ui.activeChannelIndex);
+  const socket = io();
 
   const openDeleteDialog = (channelId) => {
-    dispatch(openDeleteChannelModal,(channelId));
+    dispatch(openDeleteChannelModal, channelId);
   };
 
   const openRenameDialog = (channelId) => {
@@ -28,7 +36,6 @@ const ChannelList = () => {
   filter.add(filter.getDictionary('ru'));
 
   useEffect(() => {
-    const socket = io();
     socket.on('newChannel', (payload) => {
       if (!channelData[payload.id]) {
         dispatch(addChannel(payload));
@@ -69,8 +76,8 @@ const ChannelList = () => {
                     variant={buttonStyle}
                     id={`dropdown-split-${id}`}
                     className={`rounded-0.5 ${buttonStyle}`}
-                  >                 
-                  <span className="visually-hidden">{t('chat.channels.properties')}</span>
+                  >
+                    <span className="visually-hidden">{t('chat.channels.properties')}</span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => openDeleteDialog(id)} href="#">

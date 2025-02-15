@@ -1,5 +1,5 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
   channels: {
@@ -32,76 +32,64 @@ const initialState = {
   error: null,
 };
 
-export const getChannels = createAsyncThunk(
-  "@@chat/get-channels",
-  async (_, { getState }) => {
-    const token = getState().login.entities.token;
-    const res = await axios.get("/api/v1/channels", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = res.data;
+export const getChannels = createAsyncThunk('@@chat/get-channels', async (_, { getState }) => {
+  const token = getState().login.entities.token;
+  const res = await axios.get('/api/v1/channels', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = res.data;
 
-    return data;
-  }
-);
+  return data;
+});
 
-export const getMessages = createAsyncThunk(
-  "@@chat/get-messages",
-  async (_, { getState }) => {
-    const token = getState().login.entities.token;
-    const res = await axios.get("/api/v1/messages", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = res.data;
-    return data;
-  }
-);
+export const getMessages = createAsyncThunk('@@chat/get-messages', async (_, { getState }) => {
+  const token = getState().login.entities.token;
+  const res = await axios.get('/api/v1/messages', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = res.data;
+  return data;
+});
 
-export const postMessage = createAsyncThunk(
-  "@@chat/send-message",
-  async (userMessage, { getState }) => {
-    const loginState = getState().login;
-    const chatState = getState().chat;
-    const activeChannelIndex = chatState.ui.activeChannelIndex;
-    const currentChannelId = chatState.channels.ids[activeChannelIndex];
-    const { token, username } = loginState.entities;
+export const postMessage = createAsyncThunk('@@chat/send-message', async (userMessage, { getState }) => {
+  const loginState = getState().login;
+  const chatState = getState().chat;
+  const activeChannelIndex = chatState.ui.activeChannelIndex;
+  const currentChannelId = chatState.channels.ids[activeChannelIndex];
+  const { token, username } = loginState.entities;
 
-    const newMessage = {
-      body: userMessage,
-      channelId: currentChannelId,
-      username,
-    };
+  const newMessage = {
+    body: userMessage,
+    channelId: currentChannelId,
+    username,
+  };
 
-    const res = await axios.post("/api/v1/messages", newMessage, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const res = await axios.post('/api/v1/messages', newMessage, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    return res.data;
-  }
-);
+  return res.data;
+});
 
-export const postChannel = createAsyncThunk(
-  "@@chat/add-channel",
-  async (channelName, { getState }) => {
-    const token = getState().login.entities.token;
-    const res = await axios.post("/api/v1/channels", channelName, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+export const postChannel = createAsyncThunk('@@chat/add-channel', async (channelName, { getState }) => {
+  const token = getState().login.entities.token;
+  const res = await axios.post('/api/v1/channels', channelName, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    return res.data;
-  }
-);
+  return res.data;
+});
 
 export const deleteChannel = createAsyncThunk(
-  "@@chat/delete-channel",
+  '@@chat/delete-channel',
   async (channelId, { getState }) => {
     const token = getState().login.entities.token;
     const res = await axios.delete(`/api/v1/channels/${channelId}`, {
@@ -111,11 +99,11 @@ export const deleteChannel = createAsyncThunk(
     });
 
     return res.data;
-  }
+  },
 );
 
 export const renameChannel = createAsyncThunk(
-  "@@chat/rename-channel",
+  '@@chat/rename-channel',
   async ({ id, channelName }, { getState }) => {
     const token = getState().login.entities.token;
     const res = await axios.patch(`/api/v1/channels/${id}`, channelName, {
@@ -125,11 +113,11 @@ export const renameChannel = createAsyncThunk(
     });
 
     return res.data;
-  }
+  },
 );
 
 export const deleteMessage = createAsyncThunk(
-  "@@chat/delete-message",
+  '@@chat/delete-message',
   async (messageId, { getState }) => {
     const token = getState().login.entities.token;
     const res = await axios.delete(`/api/v1/messages/${messageId}`, {
@@ -139,11 +127,11 @@ export const deleteMessage = createAsyncThunk(
     });
 
     return res.data;
-  }
+  },
 );
 
 const chatSlice = createSlice({
-  name: "@@channels",
+  name: '@@channels',
   initialState,
   reducers: {
     setActiveChannel: (state, { payload }) => {
@@ -195,8 +183,7 @@ const chatSlice = createSlice({
       state.channels.ids = state.channels.ids.filter((item) => item !== id);
       deletedChannelIndex === currentChannelIndex
         ? (state.ui.activeChannelIndex = 0)
-        : (state.ui.activeChannelIndex =
-            state.channels.ids.indexOf(currentChannelId));
+        : (state.ui.activeChannelIndex = state.channels.ids.indexOf(currentChannelId));
     },
     addChannel: (state, { payload }) => {
       state.channels.entities[payload.id] = payload;
@@ -207,8 +194,8 @@ const chatSlice = createSlice({
     builder
       .addCase(getChannels.rejected, (state, { error }) => {
         state.error = error.message.includes(500)
-          ? "validation.connectionError"
-          : "validation.unknownError";
+          ? 'validation.connectionError'
+          : 'validation.unknownError';
       })
       .addCase(getChannels.fulfilled, (state, { payload }) => {
         payload.forEach((channel) => {
@@ -219,14 +206,14 @@ const chatSlice = createSlice({
       })
       .addCase(getMessages.rejected, (state, { error }) => {
         state.error = error.message.includes(500)
-          ? "validation.connectionError"
-          : "validation.unknownError";
+          ? 'validation.connectionError'
+          : 'validation.unknownError';
       })
       .addCase(getMessages.fulfilled, (state, { payload }) => {
         payload.forEach((message) => {
           state.messages.entities[message.id] = {
             ...message,
-            removable: message.name !== "general" && message.name !== "random",
+            removable: message.name !== 'general' && message.name !== 'random',
           };
           state.messages.ids.push(message.id);
         });
@@ -234,13 +221,13 @@ const chatSlice = createSlice({
       })
       .addCase(postMessage.rejected, (state, { error }) => {
         state.error = error.message.includes(500)
-          ? "validation.connectionError"
-          : "validation.unknownError";
+          ? 'validation.connectionError'
+          : 'validation.unknownError';
       })
       .addCase(postChannel.rejected, (state, { error }) => {
         state.error = error.message.includes(500)
-          ? "validation.connectionError"
-          : "validation.unknownError";
+          ? 'validation.connectionError'
+          : 'validation.unknownError';
       })
       .addCase(postChannel.fulfilled, (state) => {
         // state.channels.entities[payload.id] = payload;
@@ -251,8 +238,8 @@ const chatSlice = createSlice({
       })
       .addCase(deleteChannel.rejected, (state, { error }) => {
         state.error = error.message.includes(500)
-          ? "validation.connectionError"
-          : "validation.unknownError";
+          ? 'validation.connectionError'
+          : 'validation.unknownError';
       })
       .addCase(deleteChannel.fulfilled, (state) => {
         // const { id } = payload;
@@ -269,8 +256,8 @@ const chatSlice = createSlice({
       })
       .addCase(renameChannel.rejected, (state, { error }) => {
         state.error = error.message.includes(500)
-          ? "validation.connectionError"
-          : "validation.unknownError";
+          ? 'validation.connectionError'
+          : 'validation.unknownError';
       })
       .addCase(renameChannel.fulfilled, (state, { payload }) => {
         const { id, name } = payload;
@@ -280,8 +267,8 @@ const chatSlice = createSlice({
       })
       .addCase(deleteMessage.rejected, (state, { error }) => {
         state.error = error.message.includes(500)
-          ? "validation.connectionError"
-          : "validation.unknownError";
+          ? 'validation.connectionError'
+          : 'validation.unknownError';
       })
       .addCase(deleteMessage.fulfilled, (state, { payload }) => {
         const { id } = payload;

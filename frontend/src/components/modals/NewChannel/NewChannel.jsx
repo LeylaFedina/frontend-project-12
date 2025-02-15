@@ -6,9 +6,8 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../features/validationSlice';
-import { closeRenameChannelModal, postChannel } from '../../features/chatSlice';
-
+import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../../features/validationSlice';
+import { closeRenameChannelModal, postChannel } from '../../../features/chatSlice';
 
 const NewChannel = () => {
   const dispatch = useDispatch();
@@ -91,10 +90,10 @@ const NewChannel = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={closeModal}>
-        {t('chat.addModal.cancelBtn')}
+          {t('chat.addModal.cancelBtn')}
         </Button>
         <Button variant="primary" onClick={form.handleSubmit}>
-        {t('chat.addModal.sendBtn')}
+          {t('chat.addModal.sendBtn')}
         </Button>
       </Modal.Footer>
     </Modal>

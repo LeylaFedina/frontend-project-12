@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,9 +23,9 @@ const Chat = () => {
   const messages = messageIds.map((id) => chat.messages.entities[id]);
   const messageCount = messageIds.length;
   const censoredChannelName = filter.clean(currentChannel?.name);
+  const socket = io();
 
   useEffect(() => {
-    const socket = io();
     socket.on('newMessage', (payload) => {
       filter.add(filter.getDictionary('en'));
       filter.add(filter.getDictionary('ru'));
@@ -41,7 +42,7 @@ const Chat = () => {
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
-        <b>{`# ${censoredChannelName || t('chat.channels.noChannels')}`}</b>
+          <b>{`# ${censoredChannelName || t('chat.channels.noChannels')}`}</b>
         </p>
         <span className="text-muted">{`${messageCount} ${t('chat.messagesCount')}`}</span>
       </div>

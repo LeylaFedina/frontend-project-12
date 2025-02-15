@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { setLocale } from 'yup';
 
-import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../features/validationSlice';
-import { closeRenameChannelModal, renameChannel } from '../../features/chatSlice';
+import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../../features/validationSlice';
+import { closeRenameChannelModal, renameChannel } from '../../../features/chatSlice';
 
 const RenameChannel = () => {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ const RenameChannel = () => {
         inputRef.current.select();
       }, 0);
     }
-  }, [isModalOpen, currentChannelName, channelId]);
+  }, [isModalOpen, currentChannelName, channelId, form]);
 
   return (
     <Modal show={isModalOpen} onHide={closeModal} centered>
@@ -83,7 +83,7 @@ const RenameChannel = () => {
       <Modal.Body>
         <Form onSubmit={form.handleSubmit}>
           <Form.Group controlId="channelName">
-          <Form.Label htmlFor="name" className="visually-hidden">
+            <Form.Label htmlFor="name" className="visually-hidden">
               {t('chat.renameModal.formLabel')}
             </Form.Label>
             <Form.Control
@@ -101,10 +101,10 @@ const RenameChannel = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={closeModal}>
-        {t('chat.renameModal.cancelBtn')}
+          {t('chat.renameModal.cancelBtn')}
         </Button>
         <Button variant="primary" onClick={form.handleSubmit}>
-        {t('chat.renameModal.sendBtn')}
+          {t('chat.renameModal.sendBtn')}
         </Button>
       </Modal.Footer>
     </Modal>

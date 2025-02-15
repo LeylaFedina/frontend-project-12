@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
-import { loginUser } from '../../features/loginSlice';
+import { loginUser } from '../../../features/loginSlice';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Login = () => {
         <input
           name="username"
           autoComplete="username"
-          required={true}
+          required
           placeholder="Ваш ник"
           id="username"
           className={`form-control ${loginError ? 'is-invalid' : ''}`}
@@ -37,7 +37,7 @@ const Login = () => {
         <input
           name="password"
           autoComplete="current-password"
-          required={true}
+          required
           placeholder="Пароль"
           type="password"
           id="password"
@@ -46,12 +46,12 @@ const Login = () => {
           value={form.values.password}
         />
         <label className="form-label" htmlFor="password">
-        {t('loginPage.form.password')}
+          {t('loginPage.form.password')}
         </label>
         {loginError && <div className="invalid-feedback">{t(loginError)}</div>}
       </div>
       <button type="submit" className="w-100 mb-5 btn btn-outline-primary">
-      {t('loginPage.form.loginBtn')}
+        {t('loginPage.form.loginBtn')}
       </button>
     </form>
   );

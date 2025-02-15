@@ -2,7 +2,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { closeDeleteChannelModal, deleteChannel, deleteMessage } from '../../features/chatSlice';
+import { closeDeleteChannelModal, deleteChannel, deleteMessage } from '../../../features/chatSlice';
 
 const DeleteChannel = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const DeleteChannel = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeModal} variant="secondary">
-        {t('chat.deleteModal.cancelBtn')}
+          {t('chat.deleteModal.cancelBtn')}
         </Button>
         <Button
           onClick={() => {
@@ -48,7 +48,7 @@ const DeleteChannel = () => {
           }}
           variant="danger"
         >
-       {t('chat.deleteModal.sendBtn')}
+          {t('chat.deleteModal.sendBtn')}
         </Button>
       </Modal.Footer>
     </Modal>

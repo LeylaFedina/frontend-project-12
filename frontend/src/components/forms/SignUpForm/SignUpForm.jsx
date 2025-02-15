@@ -106,7 +106,7 @@ const SignUpForm = () => {
       </div>
 
       <button type="submit" className="w-100 mb-5 btn btn-outline-primary">
-      {t('signupPage.form.sendBtn')}
+        {t('signupPage.form.sendBtn')}
       </button>
     </form>
   );

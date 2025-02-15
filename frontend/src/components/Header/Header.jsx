@@ -2,7 +2,6 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-
 import { logoutUser } from '../../features/loginSlice';
 import { resetChatState } from '../../features/chatSlice';
 
@@ -23,7 +22,7 @@ const Header = () => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <Link className="navbar-brand" to="/">
-        {t('header.title')}
+          {t('header.title')}
         </Link>
         {isAuthenticated && (
           <button type="button" onClick={handleLogout} className="btn btn-primary">

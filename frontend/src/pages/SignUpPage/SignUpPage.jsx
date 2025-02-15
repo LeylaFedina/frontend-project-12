@@ -1,4 +1,4 @@
-import Form from '../../components/forms/SignUpForm';
+import Form from '../../components/forms/SignUpForm/SignUpForm';
 
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
