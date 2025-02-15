@@ -4,8 +4,10 @@ import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { setLocale } from 'yup';
 import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../features/validationSlice';
 import { closeRenameChannelModal, renameChannel } from '../../features/chatSlice';
+
 
 const RenameChannel = () => {
   const dispatch = useDispatch();
@@ -20,8 +22,22 @@ const RenameChannel = () => {
 
   const isModalOpen = useSelector((state) => state.chat.ui.modals.renameChannel.isOpen);
 
+  const customMessages = {
+    mixed: {
+      required: t('validation.emptyField'),
+    },
+    string: {
+      min: ({ min }) => (min === 3 ? t('validation.length') : t('validation.min')),
+      max: t('validation.length'),
+      oneOf: t('validation.passwordConfirmation'),
+      notOneOf: t('validation.uniqName'),
+    },
+  };
+
+  setLocale(customMessages);
+
   const validationSchema = yup.object().shape({
-    name: yup.string().required().min(3).max(20).notOneOf(existingNames),
+    name: yup.string().required().min(3).max(20).notOneOf(existingNames, t('validation.uniqName')),
   });
 
   const form = useFormik({
