@@ -1,11 +1,11 @@
 import { FaPlus as AddIcon } from 'react-icons/fa';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { setUser } from '../../features/loginSlice';
-import { getChannels, getMessages, openAddChannelModal } from '../../features/chatSlice';
+import { getChannels, getMessages, openAddChannelModal, clearError } from '../../features/chatSlice';
 import ChannelList from '../../components/ChannelList/ChannelList';
 import Chat from '../../components/Chat/Chat';
 import SendMessageForm from '../../components/forms/SendMessageForm';
@@ -27,10 +27,18 @@ const HomePage = () => {
       dispatch(getMessages());
     }
   }, [navigate, dispatch]);
+  const serverErrors = useSelector((state) => state.chat.error);
 
   const openModal = () => {
     dispatch(openAddChannelModal());
   };
+
+  useEffect(() => {
+    if (serverErrors) {
+      alert(serverErrors);
+      dispatch(clearError());
+    }
+  }, [serverErrors, dispatch]);
 
   return (
     <div className="container-fluid h-100 p-3">
