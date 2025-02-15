@@ -49,9 +49,10 @@ const resources = {
           title: "Переименовать канал",
           cancelBtn: "Отменить",
           sendBtn: "Отправить",
+          formLabel: "Имя канала",
         },
         deleteModal: {
-          notification: "Канал удален",
+          notification: "Канал удалён",
           title: "Удалить канал",
           desription: "Уверены?",
           cancelBtn: "Отменить",

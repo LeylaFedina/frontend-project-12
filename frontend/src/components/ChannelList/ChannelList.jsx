@@ -1,8 +1,10 @@
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal } from '../../features/chatSlice';
+import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal, updateChannels} from '../../features/chatSlice';
 import filter from 'leo-profanity';
+import { io } from 'socket.io-client';
 import RemoveChannel from '../modals/RemoveChannel';
 import RenameChannel from '../modals/RenameChannel';
 
@@ -22,6 +24,22 @@ const ChannelList = () => {
 
   filter.add(filter.getDictionary('en'));
   filter.add(filter.getDictionary('ru'));
+
+  useEffect(() => {
+    const socket = io();
+    socket.on('newChannel', (payload) => {
+      if (!channels[payload.id]) {
+        dispatch(addChannel(payload));
+      }
+    });
+    socket.on('removeChannel', (payload) => {
+      dispatch(updateChannels(payload));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [dispatch, channels]);
 
   return (
     <>

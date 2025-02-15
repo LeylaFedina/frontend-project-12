@@ -83,9 +83,13 @@ const RenameChannel = () => {
       <Modal.Body>
         <Form onSubmit={form.handleSubmit}>
           <Form.Group controlId="channelName">
+          <Form.Label htmlFor="name" className="visually-hidden">
+              {t('chat.renameModal.formLabel')}
+            </Form.Label>
             <Form.Control
               type="text"
               name="name"
+              id="name"
               isInvalid={validation.status === 'failed'}
               value={form.values.name}
               onChange={form.handleChange}
