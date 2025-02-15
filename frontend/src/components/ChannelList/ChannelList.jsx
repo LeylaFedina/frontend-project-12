@@ -2,7 +2,7 @@ import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal, updateChannels} from '../../features/chatSlice';
+import { openDeleteChannelModal, setActiveChannel, openRenameChannelModal, updateChannels, addChannel} from '../../features/chatSlice';
 import filter from 'leo-profanity';
 import { io } from 'socket.io-client';
 import RemoveChannel from '../modals/RemoveChannel';
@@ -28,7 +28,7 @@ const ChannelList = () => {
   useEffect(() => {
     const socket = io();
     socket.on('newChannel', (payload) => {
-      if (!channels[payload.id]) {
+      if (!channelData[payload.id]) {
         dispatch(addChannel(payload));
       }
     });
@@ -39,12 +39,12 @@ const ChannelList = () => {
     return () => {
       socket.disconnect();
     };
-  }, [dispatch, channels]);
+  }, [dispatch, channelData]);
 
   return (
     <>
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {channelData.ids.map((channelId, idx) => {     
+        {channelData.ids.map((channelId, idx) => {
           const { name, id, removable } = channelData.entities[channelId];
           const censoredChannelName = filter.clean(name);
           const isChannelActive = currentChannelIndex === idx;
