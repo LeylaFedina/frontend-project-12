@@ -35,7 +35,7 @@ const ChannelList = () => {
           return (
             <li key={id} className="nav-item w-100">
               {removable ? (
-                <Dropdown as={ButtonGroup} className="w-100">
+                <Dropdown as={ButtonGroup} className="d-flex">
                   <Button
                     className={`text-start rounded-0 ${buttonStyle} ${isChannelActive ? 'active' : ''}`}
                     onClick={() => dispatch(setActiveChannel(idx))}
@@ -49,8 +49,9 @@ const ChannelList = () => {
                     variant={buttonStyle}
                     id={`dropdown-split-${id}`}
                     className={`rounded-0.5 ${isChannelActive ? 'active' : ''}  ${isChannelActive ? 'btn-secondary' : ''}`}
-                  />
-
+                  >                 
+                  <span className="visually-hidden">{t('chat.channels.properties')}</span>
+                  </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => openDeleteDialog(id)} href="#">
                       Удалить
