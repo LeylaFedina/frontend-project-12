@@ -7,7 +7,7 @@ import MainPage from '../pages/MainPage/MainPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import RequireAuth from '../components/hoc/RequireAuth';
-import SignUpPage from '../pages/SignupPage/SignupPage';
+import SignUpPage from '../pages/SignupPage/SignUpPage';
 
 const App = () => (
   <Routes>
