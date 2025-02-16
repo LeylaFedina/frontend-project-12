@@ -101,6 +101,7 @@ const HomePage = () => {
 
   return (
     <div className="container-fluid h-100 p-3">
+      <ToastContainer />
       <div className="row h-100 bg-light rounded-3 shadow">
         <div className="col-3 border-end p-0 d-flex flex-column">
           <div className="d-flex justify-content-between align-items-center p-3">
@@ -118,7 +119,6 @@ const HomePage = () => {
         </div>
       </div>
       <NewChannel />
-      <ToastContainer />
     </div>
   );
 };
