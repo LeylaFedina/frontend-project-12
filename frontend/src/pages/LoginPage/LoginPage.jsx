@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import LoginForm from '../../components/forms/LoginForm/LoginForm';
-import img from "/src/assets/login.jpg";
+import img from '/src/assets/login.jpg';
 
 const LoginPage = () => {
   const navigate = useNavigate();

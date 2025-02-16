@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
 
 import { loginUser } from '../../../features/loginSlice';
 
@@ -8,13 +9,18 @@ const Login = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const loginError = useSelector((state) => state.login.loginError);
+  const rollbar = useRollbar();
   const form = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
     onSubmit: (values) => {
-      dispatch(loginUser(values));
+      try {
+        dispatch(loginUser(values));
+      } catch (error) {
+        rollbar.error('log error', error);
+      }
     },
   });
   return (
