@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import LoginForm from '../../components/forms/LoginForm/LoginForm';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.login.entities?.token);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (localStorage.getItem('userData') && token) {
@@ -16,23 +18,21 @@ const LoginPage = () => {
   }, [token, navigate]);
 
   return (
-    <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
-      <div className="col-10 col-md-6 col-lg-4">
-        <div className="card shadow-lg">
-          <div className="card-body p-4">
-            <div className="d-flex flex-column align-items-center">
-              <img
-                src="../../assets/login.jpg"
-                alt="Login"
-                className="rounded-circle mb-4"
-                width="120"
-                height="120"
-              />
+    <div className="row justify-content-center align-content-center h-100">
+      <div className="col-12 col-md-8 col-xxl-6">
+        <div className='card shadow-sm"'>
+          <div className="card-body row m-0 pt-4 px-0 pb-0">
+            <div className="row align-items-center justify-content-center">
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                <img className="rounded-circle" src="./src/assets/login.jpg" alt="login" />
+              </div>
               <LoginForm />
             </div>
-            <div className="card-footer bg-transparent text-center py-3">
-              <span className="me-2">Нет аккаунта?</span>
-              <Link to={'/signup'}>Регистрация</Link>
+            <div className=" card-footer p-4">
+              <div className="login__footer-text text-center">
+                <span className="mx-2">{t('loginPage.hasAccount')}</span>
+                <Link to="/signup">{t('loginPage.regLink')}</Link>
+              </div>
             </div>
           </div>
         </div>

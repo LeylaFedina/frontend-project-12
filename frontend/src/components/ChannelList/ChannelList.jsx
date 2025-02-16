@@ -25,7 +25,7 @@ const ChannelList = () => {
   const socket = io();
 
   const openDeleteDialog = (channelId) => {
-    dispatch(openDeleteChannelModal, channelId);
+    dispatch(openDeleteChannelModal(channelId));
   };
 
   const openRenameDialog = (channelId) => {
@@ -79,14 +79,6 @@ const ChannelList = () => {
                   >
                     <span className="visually-hidden">{t('chat.channels.properties')}</span>
                   </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => openDeleteDialog(id)} href="#">
-                      Удалить
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => openRenameDialog(id)} href="#">
-                      Переименовать
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => openDeleteDialog(id)} href="#">
                       {t('chat.channels.dropdown.deleteBtn')}

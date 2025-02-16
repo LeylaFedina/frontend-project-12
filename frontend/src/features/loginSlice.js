@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk('@@login/login-user', async (userData,
   }
 });
 
-export const signupUser = createAsyncThunk('@@login/signup-user', async (newUserData, thunkAPI) => {
+export const signUpUser = createAsyncThunk('@@login/signup-user', async (newUserData, thunkAPI) => {
   try {
     const res = await axios.post('/api/v1/signup', {
       username: newUserData.username,
@@ -73,10 +73,10 @@ const loginSlice = createSlice({
         state.entities.username = payload.username;
         state.loginError = null;
       })
-      .addCase(signupUser.rejected, (state, { payload }) => {
+      .addCase(signUpUser.rejected, (state, { payload }) => {
         state.signupError = payload;
       })
-      .addCase(signupUser.fulfilled, (state, { payload }) => {
+      .addCase(signUpUser.fulfilled, (state, { payload }) => {
         localStorage.setItem('userData', JSON.stringify(payload));
         state.entities.token = payload.token;
         state.entities.username = payload.username;

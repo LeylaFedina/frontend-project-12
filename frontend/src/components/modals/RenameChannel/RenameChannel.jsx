@@ -1,26 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as yup from 'yup';
-import { Modal, Button, Form } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { setLocale } from 'yup';
+import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
 
-import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../../features/validationSlice';
+import { addingChannelSucceeded, addingChannelFailed } from '../../../features/validationSlice';
 import { closeRenameChannelModal, renameChannel } from '../../../features/chatSlice';
 
 const RenameChannel = () => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-  const channelId = useSelector((state) => state.chat.ui.modals.renameChannel.channelId);
+  const modalId = useSelector((state) => state.chat.ui.modals.renameChannel.channelId);
   const validation = useSelector((state) => state.validation.addingChannel);
   const channelIds = useSelector((state) => state.chat.channels.ids);
   const channels = useSelector((state) => state.chat.channels.entities);
-  const existingNames = channelIds.map((id) => channels[id].name);
-  const currentChannelName = channels[channelId]?.name;
-
-  const isModalOpen = useSelector((state) => state.chat.ui.modals.renameChannel.isOpen);
+  const channelNames = channelIds.map((id) => channels[id].name);
+  const currentName = channels[modalId]?.name;
+  const isOpen = useSelector((state) => state.chat.ui.modals.renameChannel.isOpen);
 
   const customMessages = {
     mixed: {
@@ -36,52 +36,52 @@ const RenameChannel = () => {
 
   setLocale(customMessages);
 
-  const validationSchema = yup.object().shape({
-    name: yup.string().required().min(3).max(20).notOneOf(existingNames, t('validation.uniqName')),
+  const schema = yup.object().shape({
+    name: yup.string().required().min(3).max(20).notOneOf(channelNames, t('validation.uniqName')),
   });
 
-  const form = useFormik({
+  const formik = useFormik({
     initialValues: {
       name: '',
     },
     onSubmit: ({ name }) => {
-      const updatedName = { name: name.trim() };
-      validationSchema
-        .validate(updatedName)
+      const channelName = { name: name.trim() };
+      schema
+        .validate(channelName)
         .then(() => {
-          dispatch(setChannelAdditionSuccess(updatedName));
-          dispatch(renameChannel({ id: channelId, updatedName }));
-          closeModal();
+          dispatch(addingChannelSucceeded(channelName));
+          dispatch(renameChannel({ id: modalId, channelName }));
+          handleClose();
         })
-        .catch((error) => dispatch(setChannelAdditionFailure(error)));
+        .catch((error) => dispatch(addingChannelFailed(error)));
     },
   });
 
-  const closeModal = () => {
+  const handleClose = () => {
     dispatch(closeRenameChannelModal());
-    form.resetForm();
+    formik.resetForm();
   };
 
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (isModalOpen && channelId) {
-      form.setValues({ name: currentChannelName });
+    if (isOpen && modalId) {
+      formik.setValues({ name: currentName });
 
       setTimeout(() => {
         inputRef.current.focus();
         inputRef.current.select();
       }, 0);
     }
-  }, [isModalOpen, currentChannelName, channelId, form]);
+  }, [isOpen, currentName, modalId]);
 
   return (
-    <Modal show={isModalOpen} onHide={closeModal} centered>
+    <Modal show={isOpen} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('chat.renameModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={form.handleSubmit}>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group controlId="channelName">
             <Form.Label htmlFor="name" className="visually-hidden">
               {t('chat.renameModal.formLabel')}
@@ -91,8 +91,8 @@ const RenameChannel = () => {
               name="name"
               id="name"
               isInvalid={validation.status === 'failed'}
-              value={form.values.name}
-              onChange={form.handleChange}
+              value={formik.values.name}
+              onChange={formik.handleChange}
               ref={inputRef}
             />
             <Form.Control.Feedback type="invalid">{validation.error}</Form.Control.Feedback>
@@ -100,10 +100,10 @@ const RenameChannel = () => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="secondary" onClick={handleClose}>
           {t('chat.renameModal.cancelBtn')}
         </Button>
-        <Button variant="primary" onClick={form.handleSubmit}>
+        <Button variant="primary" onClick={formik.handleSubmit}>
           {t('chat.renameModal.sendBtn')}
         </Button>
       </Modal.Footer>

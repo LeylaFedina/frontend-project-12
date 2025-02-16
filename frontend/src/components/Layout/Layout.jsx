@@ -1,14 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import Header from '../Header/Header';
-import layoutStyles from './Layout.module.scss';
 
-const AppLayout = () => (
+import styles from './Layout.module.scss';
+import Header from '../Header/Header';
+
+const Layout = () => (
   <>
     <Header />
-    <div className={layoutStyles.content}>
+    <main className={styles.main}>
       <Outlet />
-    </div>
+    </main>
   </>
 );
 
-export default AppLayout;
+export default Layout;

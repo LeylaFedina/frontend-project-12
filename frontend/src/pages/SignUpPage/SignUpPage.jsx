@@ -21,7 +21,7 @@ const SignUpPage = () => {
           <div className="card-body row m-0 pt-4 px-0 pb-0">
             <div className="row align-items-center justify-content-center">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img className="rounded-circle" src="./src/assets/signup.jpg" alt="signup" />
+                <img className="rounded-circle" src="/src/assets/signup.jpg" alt="signup" />
               </div>
               <Form />
             </div>

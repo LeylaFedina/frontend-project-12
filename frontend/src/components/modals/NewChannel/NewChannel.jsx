@@ -6,8 +6,8 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { setChannelAdditionSuccess, setChannelAdditionFailure } from '../../../features/validationSlice';
-import { closeRenameChannelModal, postChannel } from '../../../features/chatSlice';
+import { addingChannelSucceeded, addingChannelFailed } from '../../../features/validationSlice';
+import { closeAddChannelModal, postChannel } from '../../../features/chatSlice';
 
 const NewChannel = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const NewChannel = () => {
   const channels = useSelector((state) => state.chat.channels.entities);
   const existingNames = channelIds.map((id) => channels[id].name);
 
-  const isModalOpen = useSelector((state) => state.chat.ui.modals.postChannel.isOpen);
+  const isModalOpen = useSelector((state) => state.chat.ui.modals.addChannel.isOpen);
 
   const customMessages = {
     mixed: {
@@ -46,16 +46,16 @@ const NewChannel = () => {
       validationSchema
         .validate(newChannelName)
         .then(() => {
-          dispatch(setChannelAdditionSuccess(newChannelName));
+          dispatch(addingChannelSucceeded(newChannelName));
           dispatch(postChannel(newChannelName));
           closeModal();
         })
-        .catch((error) => dispatch(setChannelAdditionFailure(error)));
+        .catch((error) => dispatch(addingChannelFailed(error)));
     },
   });
 
   const closeModal = () => {
-    dispatch(closeRenameChannelModal());
+    dispatch(closeAddChannelModal());
     form.resetForm();
   };
 

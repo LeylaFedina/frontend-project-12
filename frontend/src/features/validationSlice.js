@@ -1,26 +1,39 @@
+/* eslint arrow-body-style: "off" */
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialValidationState = {
-  channelAddition: {
-    result: null,
-    errorMessage: '',
+const initialState = {
+  addingChannel: {
+    status: null,
+    error: '',
   },
 };
 
-const validationReducer = createSlice({
-  name: 'validation',
-  initialState: initialValidationState,
+const validationSlice = createSlice({
+  name: '@@validation',
+  initialState,
   reducers: {
-    setChannelAdditionFailure: (state, { payload }) => {
-      state.channelAddition.result = 'failure';
-      state.channelAddition.errorMessage = payload.error;
+    addingChannelFailed: (state, { payload }) => {
+      return {
+        ...state,
+        addingChannel: {
+          ...state.addingChannel,
+          status: 'failed',
+          error: payload.message,
+        },
+      };
     },
-    setChannelAdditionSuccess: (state) => {
-      state.channelAddition.result = 'success';
-      state.channelAddition.errorMessage = '';
+    addingChannelSucceeded: (state) => {
+      return {
+        ...state,
+        addingChannel: {
+          ...state.addingChannel,
+          status: 'succeeded',
+          error: '',
+        },
+      };
     },
   },
 });
 
-export default validationReducer.reducer;
-export const { setChannelAdditionFailure, setChannelAdditionSuccess } = validationReducer.actions;
+export default validationSlice.reducer;
+export const { addingChannelFailed, addingChannelSucceeded } = validationSlice.actions;

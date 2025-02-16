@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { closeDeleteChannelModal, deleteChannel, deleteMessage } from '../../../features/chatSlice';
 
-const DeleteChannel = () => {
+const RemoveChannel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -55,4 +55,4 @@ const DeleteChannel = () => {
   );
 };
 
-export default DeleteChannel;
+export default RemoveChannel;

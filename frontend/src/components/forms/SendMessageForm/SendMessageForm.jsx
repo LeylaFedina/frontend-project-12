@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { CgArrowRightR as SendIcon } from 'react-icons/cg';
 
-import { openRenameChannelModal } from '../../../features/chatSlice';
+import { postMessage } from '../../../features/chatSlice';
 
 const SendMessageForm = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const SendMessageForm = () => {
       if (form.values.message.trim() !== '') {
         const inputElement = inputRef.current;
         inputElement.disabled = true;
-        dispatch(openRenameChannelModal(values.message)).finally(() => {
+        dispatch(postMessage(values.message)).finally(() => {
           inputElement.disabled = false;
           inputElement.focus();
         });

@@ -26,6 +26,15 @@ const SignUpForm = () => {
 
   setLocale(customMessages);
 
+  const schema = yup.object().shape({
+    username: yup.string().required().min(3).max(20),
+    password: yup.string().required().min(6),
+    passwordConfirmation: yup
+      .string()
+      .required()
+      .oneOf([yup.ref('password')], t('validation.passwordConfirmation')),
+  });
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -36,15 +45,6 @@ const SignUpForm = () => {
     onSubmit: (values) => {
       dispatch(signUpUser(values));
     },
-  });
-
-  const schema = yup.object().shape({
-    username: yup.string().required().min(3).max(20),
-    password: yup.string().required().min(6),
-    passwordConfirmation: yup
-      .string()
-      .required()
-      .oneOf([yup.ref('password')], t('validation.passwordConfirmation')),
   });
 
   return (
@@ -99,7 +99,7 @@ const SignUpForm = () => {
           onBlur={formik.handleBlur}
           value={formik.values.passwordConfirmation}
         />
-        <label htmlFor="passwordConfirmation">{t('signupPage.form.passwordConf')}</label>
+        <label htmlFor="passwordConfirmation">{t('signupPage.form.passwordConfirm')}</label>
         {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation ? (
           <div className="invalid-feedback">{formik.errors.passwordConfirmation}</div>
         ) : null}
