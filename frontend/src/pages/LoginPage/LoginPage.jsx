@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import LoginForm from '../../components/forms/LoginForm/LoginForm';
+import img from "/src/assets/login.jpg";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const LoginPage = () => {
           <div className="card-body row m-0 pt-4 px-0 pb-0">
             <div className="row align-items-center justify-content-center">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img className="rounded-circle" src="./src/assets/login.jpg" alt="login" />
+                <img className="rounded-circle" src={img} alt="login" />
               </div>
               <LoginForm />
             </div>
